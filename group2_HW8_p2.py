@@ -31,7 +31,7 @@ dimensions = 2
 swarmSize = 5
 
 #number of iterations
-iterations = 10
+iterations = 4
 
 #acceleration constants
 phi_1 = 1.49618
@@ -69,7 +69,7 @@ def velocity(pos, vel, pBest, gBest): #update the velocity for a certain particl
             r1.append(myPRNG.random()) #initialize first random vector
             r2.append(myPRNG.random()) #initialize second random vectors
       for d in range(dimensions): #for each dimension of this particle
-            newVel = w * vel[d] + phi_1 * r1[d] * (pBest[d] - pos[d]) + phi_2 * r2[d] * (gBest - pos[d])
+            newVel = w * vel[d] + phi_1 * r1[d] * (pBest[d] - pos[d]) + phi_2 * r2[d] * (gBest[d] - pos[d])
             if newVel > vmax:
                   newVel = vmax
             if newVel < -vmax:
@@ -93,8 +93,8 @@ vel = [[] for _ in range(swarmSize)]      #velocity of particles -- will be a li
 
 
 curValue = [] #evaluation value of current position  -- will be a list of real values; curValue[0] provides the evaluation of particle 0 in it's current position
-pbest = []    #particles' best historical position -- will be a list of lists: pbest[0] provides the position of particle 0's best historical position
-pbestVal = [] #value of pbest position  -- will be a list of real values: pbestBal[0] provides the value of particle 0's pbest location
+pBest = []    #particles' best historical position -- will be a list of lists: pbest[0] provides the position of particle 0's best historical position
+pBestVal = [] #value of pbest position  -- will be a list of real values: pbestBal[0] provides the value of particle 0's pbest location
 
 
 #initialize the swarm randomly
@@ -120,12 +120,13 @@ for i in range(0,iterations): #for each iteration
                   gBest = pos[i]
                   gBestVal = curValue[i]
       for i in range(swarmSize): #for each particle
-            vel[i] = velocity(pos[i],vel[i], pBest[i], gBestVal) #update velocity
+            vel[i] = velocity(pos[i],vel[i], pBest[i], gBest) #update velocity
             pos[i] = move(pos[i], vel[i]) #update position
+
 print("Best position: ", gBest)
 print("Best value: ", gBestVal)
-#Currently missing several elements
-#e.g., velocity update function; velocity max limitations; position updates; dealing with infeasible space; identifying the global best; main loop, stopping criterion, etc. 
+
+
                                                                           
 
 
